@@ -1,0 +1,12 @@
+[Unit]
+Description=PWM Fan Control
+After=network.service
+
+[Service]
+Type=simple
+User=root
+ExecStart=/home/pi/Scripts/pwm_fan_ctrl.py
+Restart=always
+
+[Install]
+WantedBy=default.target
