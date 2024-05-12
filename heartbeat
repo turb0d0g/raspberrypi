@@ -1,0 +1,30 @@
+#!/bin/sh -e
+### BEGIN INIT INFO
+# Provides:          hearbeat
+# Required-Start:    udev $local_fs
+# Required-Stop:
+# Default-Start:     S
+# Default-Stop:
+# Short-Description: Set LED at GPIO16 in hearbeat mode
+# Description: Set LED at GPIO16 in hearbeat mode
+### END INIT INFO
+
+N=/etc/init.d/hearbeat
+
+case "$1" in
+  start)
+        # make sure privileges don't persist across reboots
+        if [ -f /sys/class/leds/led0/trigger ]
+        then
+                echo heartbeat >/sys/class/leds/led0/trigger
+        fi
+        ;;
+  stop|reload|restart|force-reload|status)
+        ;;
+  *)
+        echo "Usage: $N {start|stop|restart|force-reload|status}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
