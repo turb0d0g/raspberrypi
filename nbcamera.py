@@ -7,6 +7,7 @@ import time
 from subprocess import call
 from datetime import datetime
 import logging
+from picamera2 import Picamera2, Preview, MappedArray
 
 # Logging all of the camera's activity to the "naturebytes_camera_log" file. If you want to watch what your camera
 # is doing step by step you can open a Terminal window and type "cd /Naturebytes/Scripts" and then type
