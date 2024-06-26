@@ -1,0 +1,16 @@
+#!/bin/bash
+net_tmp=/tmp/netspeed.tmp 
+temp=$(($(cat /sys/devices/virtual/thermal/thermal_zone0/temp) / 1000))
+load=$(cat /proc/loadavg | cut -d ' ' -f 2)
+recv=$(cat /proc/net/dev | grep -v 'lo:' | tr -s ' ' | cut -d ' ' -f 3 | tail -n +3 | awk '{s+=$1} END {print s}')
+send=$(cat /proc/net/dev | grep -v 'lo:' | tr -s ' ' | cut -d ' ' -f 11 | tail -n +3 | awk '{s+=$1} END {print s}')
+total=$(($recv + $send))
+if [ -e $net_tmp ]; then
+    prev_total=$(cat $net_tmp)
+    speed=$(($total - $prev_total))
+else
+    speed=0
+fi
+echo $total > $net_tmp
+speed=$(($speed / 1024))
+echo -n "$temp&deg;|$load|${speed}kB/s"
